@@ -21,16 +21,16 @@ This repository contains a Bash script that parses an Nginx log file (`nginx.log
 
 1. **Basic Parsing (Method 1 - Using `awk`):**
    ```bash
-   ./script.sh -f /path/to/nginx.log
+   ./script.sh -f nginx.log
    ```
 
-2. **Basic Parsing (Method 2 - Using `grep` and `cut`):**
+2. **Basic Parsing (Method 2 - Using `grep`):**
    You can switch the method used within the script by modifying the implementation.
 
 3. **Adding Country Information (Hard Level):**
    The script fetches the country code for each IP address using the `ipinfo.io` API:
    ```bash
-   ./script.sh -f /path/to/nginx.log
+   ./script.sh -f nginx.log
    ```
 
 ### **Example Output**
@@ -49,8 +49,8 @@ IP Address    Request Count    Country
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/reponame.git
-   cd reponame
+   git clone https://github.com/Dancha16/Pet.git
+   cd Pet
    ```
 
 2. Run the script with the desired flags.
@@ -64,7 +64,7 @@ You can practice saving the report file to an AWS S3 bucket:
    ```
 2. Save the output to a file and upload it to S3:
    ```bash
-   ./script.sh -f /path/to/nginx.log > report.txt
+   ./script.sh -f nginx.log > report.txt
    aws s3 cp report.txt s3://your-s3-bucket-name/
    ```
 
