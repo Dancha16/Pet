@@ -63,19 +63,6 @@ IP Address    Request Count    Country
 
 2. Run the script with the desired flags.
 
-## **AWS S3 Integration**
-You can practice saving the report file to an AWS S3 bucket:
-1. Install AWS CLI and configure it:
-   ```bash
-   sudo yum install aws-cli -y
-   aws configure
-   ```
-2. Save the output to a file and upload it to S3:
-   ```bash
-   ./script.sh -f nginx.log > report.txt
-   aws s3 cp report.txt s3://your-s3-bucket-name/
-   ```
-
 ## **Contributing**
 Feel free to fork this repository, make changes, and submit pull requests. Suggestions and improvements are welcome!
 
