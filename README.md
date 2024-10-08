@@ -14,23 +14,31 @@ This repository contains a Bash script that parses an Nginx log file (`nginx.log
 ## **Usage**
 
 ### **Flags**
-- `-f` or `--file`: Specifies the Nginx log file to parse.
-- `-h` or `--help`: Displays usage information.
+- `-f` or `--file`: Specifies the log file path.
+- `-m` or `--method`: Chooses the parsing method (1 for awk, 2 for grep + cut).
+- `-c` or `--country`: Adds a country lookup feature using ipinfo.io.
+- `-h` or `--help`: Displays usage instructions.
 
 ### **Running the Script**
 
 1. **Basic Parsing (Method 1 - Using `awk`):**
    ```bash
-   ./script.sh -f nginx.log
+   ./script.sh -f nginx.log -m 1
    ```
 
 2. **Basic Parsing (Method 2 - Using `grep`):**
-   You can switch the method used within the script by modifying the implementation.
+    ```bash
+   ./script.sh -f nginx.log -m 2
+   ```
 
 3. **Adding Country Information (Hard Level):**
    The script fetches the country code for each IP address using the `ipinfo.io` API:
    ```bash
-   ./script.sh -f nginx.log
+   ./script.sh -f nginx.log -m 1 -c
+   ```
+   or
+   ```bash
+   ./script.sh -f nginx.log -m 2 -c
    ```
 
 ### **Example Output**
