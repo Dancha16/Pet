@@ -2,7 +2,7 @@
 
 # **Nginx Log Parser Script**
 
-This repository contains a Bash script that parses an Nginx log file (`nginx.log`) and generates a report of IP addresses, the number of requests from each IP, and optionally, the country associated with each IP address.
+This pet-project repository contains a Bash script that parses an Nginx log file (`nginx.log`) and generates a report of IP addresses, the number of requests from each IP, and optionally, the country associated with each IP address.
 
 ## **Features**
 - Parses Nginx log files to extract and count IP addresses.
@@ -15,7 +15,7 @@ This repository contains a Bash script that parses an Nginx log file (`nginx.log
 
 ### **Flags**
 - `-f` or `--file`: Specifies the log file path.
-- `-m` or `--method`: Chooses the parsing method (1 for awk, 2 for grep + cut).
+- `-m` or `--method`: Chooses the parsing method (1 for awk, 2 for grep + cut, 3 for IPinfo grepip).
 - `-c` or `--country`: Adds a country lookup feature using ipinfo.io.
 - `-h` or `--help`: Displays usage instructions.
 
@@ -28,17 +28,27 @@ This repository contains a Bash script that parses an Nginx log file (`nginx.log
 
 2. **Basic Parsing (Method 2 - Using `grep`):**
     ```bash
-   ./script.sh -f nginx.log -m 2
+   ./script.sh -m 2
    ```
 
-3. **Adding Country Information (Hard Level):**
-   The script fetches the country code for each IP address using the `ipinfo.io` API:
+3. **Basic Parsing (Method 3 - Using `IPinfo grepip`):**
    ```bash
-   ./script.sh -f nginx.log -m 1 -c
+   ./script.sh -m 3
    ```
-   or
+4. **Parsing with country fetch**
+   The script fetches the country code for each IP address using the ipinfo.io API:
+   ```bash 
+   ./script.sh -m 1 -c 
+   ```
+   or 
+
    ```bash
    ./script.sh -f nginx.log -m 2 -c
+   ```
+   or 
+
+   ```bash
+   ./script.sh -f /your_path/nginx.log -m 3 -c
    ```
 
 ### **Example Output**
@@ -52,7 +62,8 @@ IP Address    Request Count    Country
 - Bash
 - `curl` (for country lookup)
 - `jq` (optional, for additional JSON parsing)
-  
+- `IPinfo CLI` (optional, for additional IPinfo parsing)
+
 ## **Installation**
 
 1. Clone the repository:
