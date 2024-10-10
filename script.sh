@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-log_file="./Pet/nginx.log"
+log_file="./nginx.log"
 method=1
 country_flag=false
 
