@@ -11,25 +11,29 @@ show_help() {
   echo ""
   echo "Options:"
   echo "  -f, --file     Path to the Nginx log file (default: $log_file)"
-  echo "  -m, --method   Parsing method (1: awk, 2: grep+cut)"
+  echo "  -m, --method   Parsing method (1: awk, 2: grep+cut, 3: IPinfo grepip)"
   echo "  -c, --country  Fetch country information for each IP"
   echo "  -h, --help     Show help information"
   echo ""
   echo "Examples:"
   echo "  $0 -f /path/to/nginx.log -m 1"
   echo "  $0 -m 2 -c"  # Allows running without -f
+  echo "  $0 -m 3"
 }
 
 # Function to parse log and count requests per IP (Method 1: using awk)
 parse_with_awk() {
-  echo "Using awk to parse the log file..."
   awk '{print $1}' "$log_file" | sort | uniq -c | sort -nr | awk '{print $2, $1}'
 }
 
 # Function to parse log and count requests per IP (Method 2: using grep + cut)
 parse_with_grep_cut() {
-  echo "Using grep and cut to parse the log file..."
   grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' "$log_file" | sort | uniq -c | sort -nr | awk '{print $2, $1}'
+}
+
+# Function to parse log and cound requests per IP (Method 3: using IPinfo grep)
+parse_with_ipinfo() {
+  ipinfo grepip --only-matching "$log_file" | sort | uniq -c | sort -nr | awk '{print $2, $1}'
 }
 
 # Function to fetch country info for an IP
@@ -42,15 +46,24 @@ get_country() {
 # Function to parse log and add country info
 add_country_info() {
   while read -r line; do
-    ip=$(echo "$line" | awk '{print $1}')
-    requests=$(echo "$line" | awk '{print $2}')
-    # Skip private IPs
-    if [[ "$ip" =~ ^10\.|^172\.16\.|^192\.168\. ]]; then
-      echo "$ip $requests null"
-      continue
+    # Validate that the line starts with a valid IP address
+    if [[ "$line" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}\ [0-9]+$ ]]; then
+      ip=$(echo "$line" | awk '{print $1}')
+      requests=$(echo "$line" | awk '{print $2}')
+      
+      # Skip private IPs without printing anything
+      if [[ "$ip" =~ ^10\.|^172\.1[6-9]|2[0-9]|3[0-1]\.|^192\.168\.|^127\.0\.0\.1$ ]]; then
+        continue
+      fi
+
+      country=$(get_country "$ip")
+      
+      # Check if country information is available
+      if [ -z "$country" ] || [ "$country" == "null" ]; then
+        country="unknown"
+      fi
+      echo "$ip $requests $country"
     fi
-    country=$(get_country "$ip")
-    echo "$ip $requests $country"
   done
 }
 
@@ -88,14 +101,24 @@ if [ ! -f "$log_file" ]; then
 fi
 
 # Choose parsing method and process log file
-if [ "$method" -eq 1 ]; then
-  result=$(parse_with_awk)
-elif [ "$method" -eq 2 ]; then
-  result=$(parse_with_grep_cut)
-else
-  echo "Error: Invalid method selected. Choose 1 or 2."
-  exit 1
-fi
+case $method in
+  1)
+    echo "Using awk to parse the log file..."
+    result=$(parse_with_awk)
+    ;;
+  2)
+    echo "Using grep and cut to parse the log file..."
+    result=$(parse_with_grep_cut)
+    ;;
+  3)
+    echo "Using IPinfo grepip to parse the log file..."
+    result=$(parse_with_ipinfo)
+    ;;
+  *)
+    echo "Error: Invalid method selected. Choose 1, 2, or 3."
+    exit 1
+    ;;
+esac
 
 # Add country info if flag is set
 if [ "$country_flag" = true ]; then
@@ -103,4 +126,3 @@ if [ "$country_flag" = true ]; then
 else
   echo "$result"
 fi
-
