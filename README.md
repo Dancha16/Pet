@@ -62,7 +62,7 @@ IP Address    Request Count    Country
 - Bash
 - `curl` (for country lookup)
 - `jq` (optional, for additional JSON parsing)
-- `IPinfo CLI` (optional, for additional IPinfo parsing)
+- `IPinfo CLI` (optional, for additional IPinfo parsing, [GitHub](https://github.com/ipinfo/cli))
 
 ## **Installation**
 
