@@ -68,11 +68,20 @@ IP Address    Request Count    Country
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Dancha16/Pet.git
-   cd Pet
+   git clone https://github.com/Dancha16/nginx-log-parser-script.git
+   cd nginx-log-parser-script
    ```
 
 2. Run the script with the desired flags.
+
+## **Download Files**
+
+You can download the `script.sh` and `nginx.log` files directly from my S3 bucket:
+
+- [Download `script.sh`](https://nginx-log-parser-script.s3.eu-north-1.amazonaws.com/script.sh)
+- [Download `nginx.log`](https://nginx-log-parser-script.s3.eu-north-1.amazonaws.com/nginx.log)
+
+To run the script, download the files and use the instructions above.
 
 ## **Contributing**
 Feel free to fork this repository, make changes, and submit pull requests. Suggestions and improvements are welcome!
