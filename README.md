@@ -8,7 +8,7 @@ This pet-project repository contains a Bash script that parses an Nginx log file
 - Parses Nginx log files to extract and count IP addresses.
 - Outputs a sorted list of IPs with the corresponding request counts.
 - Option to add country information for each IP address (hard level).
-- Implements two different methods for parsing the log.
+- Implements three different methods for parsing the log.
 - Supports command-line flags for ease of use.
 
 ## **Usage**
